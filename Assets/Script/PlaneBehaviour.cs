@@ -22,7 +22,7 @@ public class PlaneBehaviour : MonoBehaviour {
 	void Update () {
         realSpeed = vitesse / 200000; // (from 1000 km.h to 0.005 speed)
 
-        Vector3 movement = Vector3.zero - transform.position; // Pour le moment on teste le mouvement vers le point 0 0
+        Vector3 movement = GameObject.Find("GameManager").GetComponent<GameManager>().destinationDict[destination].destPosition - transform.position; // Pour le moment on teste le mouvement vers le point 0 0
         if (movement.magnitude < realSpeed)
         {
             GameObject.Find("GameManager").GetComponent<GameManager>().planesCount--;
@@ -32,10 +32,6 @@ public class PlaneBehaviour : MonoBehaviour {
             movement.Normalize();
             transform.Translate(movement * realSpeed, Space.World);
             angleVertical = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
-
-            Debug.Log("Name = " + planeName);
-            Debug.Log("Vitesse = " + vitesse);
-            Debug.Log("Altitude = " + altitude);
         }
         
     }

@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour {
 
     public int planesCount = 0;
 
-    public System.Collections.Generic.IDictionary<int, Destination> destinationDict;
+    public System.Collections.Generic.Dictionary<int, Destination> destinationDict = new System.Collections.Generic.Dictionary<int, Destination>();
 
     void InitializeDictionary()
     {
@@ -33,6 +33,14 @@ public class GameManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        InitializeDictionary();
+
+        for (int i = 0; i < 4; i++)
+        {
+            Debug.Log(destinationDict[0].destPosition.x);
+        }
+        
+
 	    for (int i = 0; i < planesStart; i++)
         {
             if (planesCount < planesMax)
@@ -45,6 +53,7 @@ public class GameManager : MonoBehaviour {
                 instance.GetComponent<PlaneBehaviour>().planeName = string.Concat("AF-40", i);
                 instance.GetComponent<PlaneBehaviour>().vitesse = Random.Range(950.0f,990.0f);
                 instance.GetComponent<PlaneBehaviour>().altitude = (int) Random.Range(500.0f, 600.0f);
+                instance.GetComponent<PlaneBehaviour>().destination = (int)Random.Range(0.0f, 3.9999f);
             }
 
         }
@@ -65,6 +74,7 @@ public class GameManager : MonoBehaviour {
                 instance.GetComponent<PlaneBehaviour>().planeName = string.Concat("AF-40", planesCount);
                 instance.GetComponent<PlaneBehaviour>().vitesse = Random.Range(950.0f, 990.0f);
                 instance.GetComponent<PlaneBehaviour>().altitude = (int)Random.Range(500.0f, 600.0f);
+                instance.GetComponent<PlaneBehaviour>().destination = (int)Random.Range(0.0f, 4.9999f);
             }
         }
     }
