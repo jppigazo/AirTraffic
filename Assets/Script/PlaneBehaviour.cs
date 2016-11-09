@@ -22,6 +22,6 @@ public class PlaneBehaviour : MonoBehaviour {
         Vector3 movement = Vector3.zero - transform.position; // Pour le moment on teste le mouvement vers le point 0 0
         movement.Normalize();
         transform.Translate(movement * vitesse,Space.World);
-        angleVertical = Mathf.Atan2(movement.y, movement.x);
+        angleVertical = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
     }
 }
