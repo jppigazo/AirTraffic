@@ -1,26 +1,71 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public class Destination
+{
+    public string destName;
+    public Vector3 destPosition;
+
+    public Destination(string destName, Vector3 destPosition)
+    {
+        this.destName = destName;
+        this.destPosition = destPosition;
+    }
+}
+
 public class GameManager : MonoBehaviour {
 
-    public int planesCount;
+    public int planesStart;
     public int planesMax;
     public GameObject planeObject;
 
-    private
+    public int planesCount = 0;
 
-	// Use this for initialization
-	void Start () {
-	    for (int i = 0; i < planesCount; i++)
+    public System.Collections.Generic.IDictionary<int, Destination> destinationDict;
+
+    void InitializeDictionary()
+    {
+        destinationDict.Add(0, new Destination("Montpellier",new Vector3(0.0f,0.0f)));
+        destinationDict.Add(1, new Destination("Lyon", new Vector3(4.5f, 2.0f)));
+        destinationDict.Add(2, new Destination("Paris", new Vector3(-1.0f, 4.5f)));
+        destinationDict.Add(3, new Destination("Toulouse", new Vector3(-4.5f, -4.5f)));
+    }
+
+    // Use this for initialization
+    void Start () {
+	    for (int i = 0; i < planesStart; i++)
         {
-            float radius = Random.Range(2.0f, 5.0f);
-            float angle = Random.Range(-Mathf.PI, Mathf.PI);
-            Instantiate(planeObject, new Vector3(radius * Mathf.Cos(angle), radius * Mathf.Sin(angle), 0.0f), Quaternion.Euler(0.0f, 180.0f, 0.0f));
+            if (planesCount < planesMax)
+            {
+                float radius = Random.Range(4.900f, 5.000f);
+                float angle = Random.Range(-Mathf.PI, Mathf.PI);
+                GameObject instance = (GameObject) Instantiate(planeObject, new Vector3(radius * Mathf.Cos(angle), radius * Mathf.Sin(angle), 0.0f), Quaternion.Euler(0.0f, 180.0f, 0.0f));
+                planesCount++;
+
+                instance.GetComponent<PlaneBehaviour>().planeName = string.Concat("AF-40", i);
+                instance.GetComponent<PlaneBehaviour>().vitesse = Random.Range(950.0f,990.0f);
+                instance.GetComponent<PlaneBehaviour>().altitude = (int) Random.Range(500.0f, 600.0f);
+            }
+
         }
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
+        if (planesCount < planesMax)
+        {
+            float spawnRand = Random.Range(0.0f, 1.0f);
+            if (spawnRand < 0.01f)
+            {
+                float radius = Random.Range(3.0f, 5.0f);
+                float angle = Random.Range(-Mathf.PI, Mathf.PI);
+                GameObject instance = (GameObject)Instantiate(planeObject, new Vector3(radius * Mathf.Cos(angle), radius * Mathf.Sin(angle), 0.0f), Quaternion.Euler(0.0f, 180.0f, 0.0f));
+                planesCount++;
+
+                instance.GetComponent<PlaneBehaviour>().planeName = string.Concat("AF-40", planesCount);
+                instance.GetComponent<PlaneBehaviour>().vitesse = Random.Range(950.0f, 990.0f);
+                instance.GetComponent<PlaneBehaviour>().altitude = (int)Random.Range(500.0f, 600.0f);
+            }
+        }
+    }
 }
