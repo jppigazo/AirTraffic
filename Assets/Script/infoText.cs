@@ -1,64 +1,104 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI; // Required when Using UI elements.
 
 public class infoText : MonoBehaviour
 {
-    int altitude; // Conversion m / ft
-    int destination;
-    float vitesse; // Conversion knots (kts) / km.h / mph
-    float direction;
+    Button buttonSend;
 
-    private TextMesh textObject;
     // Use this for initialization
     void Start()
     {
-            }
+        //var input = gameObject.GetComponent<InputField>();
+        //var se = new InputField.SubmitEvent();
+        //se.AddListener(SubmitName);
+        //input.onEndEdit = se;
+    }
 
     // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-
+        
+            Text txtName, txtVitesse, txtDestination, txtDirection, txtAltitude;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit))
             {
-                string txt = "Name : ";
-                textObject = GameObject.Find("AvionText").GetComponent<TextMesh>();
-
-                string txtPlaneName;
-                if (string.IsNullOrEmpty(hit.transform.GetComponent<PlaneBehaviour>().planeName))
-                    txtPlaneName = "test";
-                else
-                    txtPlaneName = hit.transform.GetComponent<PlaneBehaviour>().planeName;
-
-        
-                txt = string.Concat(txt, txtPlaneName);
-
-        
-                int altitude = hit.transform.GetComponent<PlaneBehaviour>().altitude; // Conversion m / ft
-                int destination = hit.transform.GetComponent<PlaneBehaviour>().destination;
-                float vitesse = hit.transform.GetComponent<PlaneBehaviour>().vitesse; // Conversion knots (kts) / km.h / mph
-                float direction = hit.transform.GetComponent<PlaneBehaviour>().direction;
-
-                txt = string.Concat(txt, "\n");
-                txt = string.Concat(txt, "Destination : ");
-                txt = string.Concat(txt, destination);
-                txt = string.Concat(txt, "\n");
-                txt = string.Concat(txt, "Vitesse : ");
-                txt = string.Concat(txt, vitesse);
-                txt = string.Concat(txt, "\n");
-                txt = string.Concat(txt, "Altitude : ");
-                txt = string.Concat(txt, altitude);
-                txt = string.Concat(txt, "\n");
-                txt = string.Concat(txt, "Direction : ");
-                txt = string.Concat(txt, direction);
+                txtName = GameObject.Find("Name").GetComponentInChildren<Text>();
+                txtDestination = GameObject.Find("Destination").GetComponentInChildren<Text>();
+                txtVitesse = GameObject.Find("Speed").GetComponentInChildren<Text>();           // Conversion knots (kts) / km.h / mph
+                txtAltitude = GameObject.Find("Altitude").GetComponentInChildren<Text>();       // Conversion m / ft
+                txtDirection = GameObject.Find("Direction").GetComponentInChildren<Text>();
                 
-                textObject.text = txt;
-
+                if (string.IsNullOrEmpty(hit.transform.GetComponent<PlaneBehaviour>().planeName))
+                {
+                    txtName.text = "N/A";
+                    txtDestination.text = "N/A";
+                    txtVitesse.text = "N/A";
+                    txtAltitude.text = "N/A";
+                    txtDirection.text = "N/A";
+                }
+                else
+                {
+                    txtName.text = hit.transform.GetComponent<PlaneBehaviour>().planeName.ToString();
+                    txtDestination.text = hit.transform.GetComponent<PlaneBehaviour>().destination.ToString();
+                    txtVitesse.text = hit.transform.GetComponent<PlaneBehaviour>().vitesse.ToString();
+                    txtAltitude.text = hit.transform.GetComponent<PlaneBehaviour>().altitude.ToString();
+                    txtDirection.text = hit.transform.GetComponent<PlaneBehaviour>().direction.ToString();
+                }
+                
             }
         }
+    }
+    
+    //private void SubmitName(string arg0)
+    //{
+    //   // Debug.Log(arg0);
+    //}
+    
+
+    void Awake()
+    {
+        buttonSend = GameObject.Find("Send").GetComponent<Button>();
+
+        buttonSend.onClick.AddListener(() => PlaneSendData());
+
+        Debug.Log("Send Data clicked");
+    }
+
+
+    void PlaneSendData()
+    {
+        string txtName, txtVitesse, txtDestination, txtDirection, txtAltitude;
+        //txtName = GameObject.Find("Name").GetComponentInChildren<Text>();
+        //txtDestination = GameObject.Find("Destination").GetComponentInChildren<Text>();
+        //txtVitesse = GameObject.Find("Speed").GetComponentInChildren<Text>();           // Conversion knots (kts) / km.h / mph
+        //txtAltitude = GameObject.Find("Altitude").GetComponentInChildren<Text>();       // Conversion m / ft
+        //txtDirection = GameObject.Find("Direction").GetComponentInChildren<Text>();
+
+        txtName = GameObject.Find("Name").GetComponent<InputField>().text;
+        txtDestination = GameObject.Find("Destination").GetComponent<InputField>().text;
+        txtVitesse = GameObject.Find("Speed").GetComponent<InputField>().text;           // Conversion knots (kts) / km.h / mph
+        txtAltitude = GameObject.Find("Altitude").GetComponent<InputField>().text;     // Conversion m / ft
+        txtDirection = GameObject.Find("Direction").GetComponent<InputField>().text;
+
+
+        Debug.Log("Send Data");
+        Debug.Log(txtName);
+        Debug.Log(txtVitesse);
+        Debug.Log(txtAltitude);
+        Debug.Log(txtDirection);
+        Debug.Log(txtDestination);
+
+        //txtName.text = hit.transform.GetComponent<PlaneBehaviour>().planeName.ToString();
+        //txtDestination.text = hit.transform.GetComponent<PlaneBehaviour>().destination.ToString();
+        //txtVitesse.text = hit.transform.GetComponent<PlaneBehaviour>().vitesse.ToString();
+        //txtAltitude.text = hit.transform.GetComponent<PlaneBehaviour>().altitude.ToString();
+        //txtDirection.text = hit.transform.GetComponent<PlaneBehaviour>().direction.ToString();
+
+
     }
 }
