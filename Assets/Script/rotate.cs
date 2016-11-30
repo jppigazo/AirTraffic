@@ -23,22 +23,8 @@ public class rotate : MonoBehaviour {
             angleVertical = gameObject.GetComponent<PlaneBehaviour>().angleVertical;
             // change the angle to go to.
            // triangle.transform.rotation = Quaternion.Euler(0.0f, 180.0f, 90f);
-<<<<<<< HEAD
             triangle.transform.rotation = Quaternion.Euler(0.0f, 180.0f, -90f - angleVertical);
         }
         
-=======
-            triangle.transform.rotation = Quaternion.Euler(0.0f, 180.0f, -90f -angleVertical);
-
-            //Debug.Log("AngleVertical ");            Debug.Log(angleVertical.ToString("F4"));
-        }
-
-
-        //Debug.Log("Rot X");     Debug.Log(rot.x.ToString("F4"));
-       // Debug.Log("Rot Y");     Debug.Log(rot.y.ToString("F4"));
-       // Debug.Log("Rot Z");     Debug.Log(rot.z.ToString("F4"));
-
-
->>>>>>> origin/master
     }
 }

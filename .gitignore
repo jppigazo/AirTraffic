@@ -78,3 +78,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 Temp/UnityLockfile
+Assets/Script/GameManager.cs
