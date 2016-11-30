@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 
 public class PlaneBehaviour : MonoBehaviour {
 
@@ -10,16 +11,23 @@ public class PlaneBehaviour : MonoBehaviour {
 
     public float angleVertical;
 
+    private MeshRenderer meshRend;
+
     private float angleHorizontal;
     private float realSpeed;
 
     // Use this for initialization
     void Start () {
-
+        meshRend = gameObject.GetComponent<MeshRenderer>();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    void onTriggerEnter(Collider other)
+    {
+        Debug.Log("Hello");
+    }
+
+    // Update is called once per frame
+    void Update () {
         realSpeed = vitesse / 200000; // (from 1000 km.h to 0.005 speed)
 
         Vector3 movement = GameObject.Find("GameManager").GetComponent<GameManager>().destinationDict[destination].destPosition - transform.position; // Pour le moment on teste le mouvement vers le point 0 0
@@ -33,6 +41,13 @@ public class PlaneBehaviour : MonoBehaviour {
             transform.Translate(movement * realSpeed, Space.World);
             angleVertical = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
         }
-        
+
+        if (Math.Abs(gameObject.transform.position.x) < 4.7f && Math.Abs(gameObject.transform.position.y) < 4.7f)
+        {
+            meshRend.enabled = true;
+        } else
+        {
+            meshRend.enabled = false;
+        }
     }
 }

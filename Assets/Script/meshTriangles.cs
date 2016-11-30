@@ -1,17 +1,18 @@
 ﻿// Builds a Mesh containing a single triangle with uvs.
 // Create arrays of vertices, uvs and triangles, and copy them into the mesh.
 
+using System;
 using UnityEngine;
 
 public class meshTriangles : MonoBehaviour
 {
     private Mesh mesh;
-    private float x0 = 0f;
+    /*private float x0 = 0f;
     private float y0 = 0f;
     private float x1 = -0.125f;
     private float y1 = 0.35f;
     private float x2 = 0.125f;
-    private float y2 = 0.35f;
+    private float y2 = 0.35f;*/
 
     // Use this for initialization
     void Start()
