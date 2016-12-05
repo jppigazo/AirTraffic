@@ -5,51 +5,62 @@ using UnityEngine.UI; // Required when Using UI elements.
 public class infoText : MonoBehaviour
 {
     Button buttonSend;
+    string txtVitesse, txtDirection, txtAltitude;
+    RaycastHit planeHited;
+    InputField InFiName, InFiDestination, InFiVitesse, InFiDirection, InFiAltitude;
+
 
     // Use this for initialization
     void Start()
     {
-        //var input = gameObject.GetComponent<InputField>();
-        //var se = new InputField.SubmitEvent();
-        //se.AddListener(SubmitName);
-        //input.onEndEdit = se;
-    }
+        
+        buttonSend = GameObject.Find("Send").GetComponent<Button>();
+        buttonSend.onClick.AddListener(() => PlaneSendData());
 
+    }
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-        
-            Text txtName, txtVitesse, txtDestination, txtDirection, txtAltitude;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+       if (Input.GetMouseButtonDown(0))
+       {
+           Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+           RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit))
-            {
-                txtName = GameObject.Find("Name").GetComponentInChildren<Text>();
-                txtDestination = GameObject.Find("Destination").GetComponentInChildren<Text>();
-                txtVitesse = GameObject.Find("Speed").GetComponentInChildren<Text>();           // Conversion knots (kts) / km.h / mph
-                txtAltitude = GameObject.Find("Altitude").GetComponentInChildren<Text>();       // Conversion m / ft
-                txtDirection = GameObject.Find("Direction").GetComponentInChildren<Text>();
-                
+           if (Physics.Raycast(ray, out hit))
+           {
+                InFiName = GameObject.Find("Name").GetComponent<InputField>();
+                InFiDestination = GameObject.Find("Destination").GetComponent<InputField>();
+                InFiVitesse = GameObject.Find("Speed").GetComponent<InputField>();           // Conversion knots (kts) / km.h / mph
+                InFiDirection = GameObject.Find("Direction").GetComponent<InputField>();
+                InFiAltitude =  GameObject.Find("Altitude").GetComponent<InputField>();       // Conversion m / ft
+
+                // Erase data on orders
+                GameObject.Find("SpeedOrder").GetComponent<InputField>().text = "--";
+                GameObject.Find("AltitudeOrder").GetComponent<InputField>().text = "--";
+                GameObject.Find("DirectionOrder").GetComponent<InputField>().text = "--";
+
                 if (string.IsNullOrEmpty(hit.transform.GetComponent<PlaneBehaviour>().planeName))
                 {
-                    txtName.text = "N/A";
-                    txtDestination.text = "N/A";
-                    txtVitesse.text = "N/A";
-                    txtAltitude.text = "N/A";
-                    txtDirection.text = "N/A";
+                    InFiName.text = "N/A";
+                    InFiDestination.text = "N/A";
+                    InFiVitesse.text = "N/A";
+                    InFiAltitude.text = "N/A";
+                    InFiDirection.text = "N/A";
                 }
                 else
                 {
-                    txtName.text = hit.transform.GetComponent<PlaneBehaviour>().planeName.ToString();
-                    txtDestination.text = hit.transform.GetComponent<PlaneBehaviour>().destination.ToString();
-                    txtVitesse.text = hit.transform.GetComponent<PlaneBehaviour>().vitesse.ToString();
-                    txtAltitude.text = hit.transform.GetComponent<PlaneBehaviour>().altitude.ToString();
-                    txtDirection.text = hit.transform.GetComponent<PlaneBehaviour>().direction.ToString();
+
+                    InFiName.text = hit.transform.GetComponent<PlaneBehaviour>().planeName.ToString();
+                    InFiDestination.text = hit.transform.GetComponent<PlaneBehaviour>().destination.ToString();
+                    InFiVitesse.text = hit.transform.GetComponent<PlaneBehaviour>().vitesse.ToString() + " knots";
+                    InFiAltitude.text = "FL"+hit.transform.GetComponent<PlaneBehaviour>().altitude.ToString();
+                    InFiDirection.text = "cap"+hit.transform.GetComponent<PlaneBehaviour>().direction.ToString();
+
+                    txtVitesse = InFiVitesse.text;
+                    txtDirection = InFiDirection.text;
+                    txtAltitude = InFiAltitude.text;
                 }
-                
+                planeHited = hit;
             }
         }
     }
@@ -62,43 +73,57 @@ public class infoText : MonoBehaviour
 
     void Awake()
     {
-        buttonSend = GameObject.Find("Send").GetComponent<Button>();
-
-        buttonSend.onClick.AddListener(() => PlaneSendData());
-
+        //buttonSend = GameObject.Find("Send").GetComponent<Button>();
+       // buttonSend.onClick.AddListener(() => PlaneSendData());
         Debug.Log("Send Data clicked");
     }
 
 
     void PlaneSendData()
     {
-        string txtName, txtVitesse, txtDestination, txtDirection, txtAltitude;
-        //txtName = GameObject.Find("Name").GetComponentInChildren<Text>();
-        //txtDestination = GameObject.Find("Destination").GetComponentInChildren<Text>();
-        //txtVitesse = GameObject.Find("Speed").GetComponentInChildren<Text>();           // Conversion knots (kts) / km.h / mph
-        //txtAltitude = GameObject.Find("Altitude").GetComponentInChildren<Text>();       // Conversion m / ft
-        //txtDirection = GameObject.Find("Direction").GetComponentInChildren<Text>();
-
-        txtName = GameObject.Find("Name").GetComponent<InputField>().text;
-        txtDestination = GameObject.Find("Destination").GetComponent<InputField>().text;
-        txtVitesse = GameObject.Find("Speed").GetComponent<InputField>().text;           // Conversion knots (kts) / km.h / mph
-        txtAltitude = GameObject.Find("Altitude").GetComponent<InputField>().text;     // Conversion m / ft
-        txtDirection = GameObject.Find("Direction").GetComponent<InputField>().text;
-
-
+        
+        InputField txtVitesseOrder, txtDirectionOrder, txtAltitudeOrder;
         Debug.Log("Send Data");
-        Debug.Log(txtName);
-        Debug.Log(txtVitesse);
-        Debug.Log(txtAltitude);
-        Debug.Log(txtDirection);
-        Debug.Log(txtDestination);
+ 
 
-        //txtName.text = hit.transform.GetComponent<PlaneBehaviour>().planeName.ToString();
-        //txtDestination.text = hit.transform.GetComponent<PlaneBehaviour>().destination.ToString();
-        //txtVitesse.text = hit.transform.GetComponent<PlaneBehaviour>().vitesse.ToString();
-        //txtAltitude.text = hit.transform.GetComponent<PlaneBehaviour>().altitude.ToString();
-        //txtDirection.text = hit.transform.GetComponent<PlaneBehaviour>().direction.ToString();
+        if (GameObject.Find("Speed").GetComponent<InputField>().text != txtVitesse)         {
+
+            txtVitesseOrder = GameObject.Find("Speed").GetComponent<InputField>();
+            txtVitesse = txtVitesseOrder.text;
+            GameObject.Find("SpeedOrder").GetComponent<InputField>().text = txtVitesse;
+            Debug.Log("Vitesse: " + txtVitesse);
+            Debug.Log("VitesseOrder: " + txtVitesseOrder.text);
+
+            planeHited.transform.GetComponent<PlaneBehaviour>().vitesseOrder = float.Parse(txtVitesseOrder.text);           // Conversion knots (kts) / km.h / mph
+
+        }
 
 
+       else if (GameObject.Find("Altitude").GetComponent<InputField>().text != txtAltitude)      {
+
+            txtAltitudeOrder = GameObject.Find("Altitude").GetComponent<InputField>();     // Conversion m / ft
+            txtAltitude = "FL" + txtAltitudeOrder.text;
+            GameObject.Find("AltitudeOrder").GetComponent<InputField>().text = txtAltitude;
+            Debug.Log("Altitude: " + txtAltitude);
+            Debug.Log("AltitudeOrder: " + txtAltitudeOrder.text);
+
+            planeHited.transform.GetComponent<PlaneBehaviour>().altitudeOrder = int.Parse(txtAltitudeOrder.text);
+
+        }
+
+
+       else if (GameObject.Find("Direction").GetComponent<InputField>().text != txtDirection)     {
+
+            txtDirectionOrder = GameObject.Find("Direction").GetComponent<InputField>();
+            txtDirection = "CAP" + txtDirectionOrder.text;
+            GameObject.Find("DirectionOrder").GetComponent<InputField>().text = txtDirection;
+            Debug.Log("Direction: " + txtDirection);
+            Debug.Log("DirectionOrder: " + txtDirectionOrder.text);
+
+            planeHited.transform.GetComponent<PlaneBehaviour>().directionOrder = int.Parse(txtDirectionOrder.text);
+
+        }
     }
+    
+
 }

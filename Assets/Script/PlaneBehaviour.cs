@@ -14,6 +14,7 @@ public class PlaneBehaviour : MonoBehaviour {
     public int directionOrder;
 
     public float angleVertical;
+    
 
     private MeshRenderer meshRend;
 
@@ -68,28 +69,36 @@ public class PlaneBehaviour : MonoBehaviour {
         vitesseOrder = vitesse;
         directionOrder = -1;
         altitudeOrder = altitude;
+        
     }
 
     // Update is called once per frame
     void Update () {
+       
         if (vitesse != vitesseOrder)
         {
             vitesse += Math.Sign(vitesseOrder - vitesse)*Math.Min(Math.Abs(vitesseOrder - vitesse), 2);
+            Debug.Log("SpeedOrder = " + vitesseOrder + "/ speed = " + vitesse);
         }
 
         if (altitude != altitudeOrder)
         {
             altitude += Math.Sign(altitudeOrder - altitude) * Math.Min(Math.Abs(altitudeOrder - altitude), 3);
+            
+            Debug.Log("Altitude changed on planeBehaviour");
         }
 
         if (directionOrder != -1 && direction != directionOrder)
         {
+            Debug.Log("Direction changed");
             if (Math.Abs(directionOrder - direction) < 180)
             {
                 direction += Math.Sign(directionOrder - direction) * Math.Min(Math.Abs(directionOrder - direction), 5);
+                Debug.Log("Direction changed on planeBehaviour");
             } else
             {
                 direction -= Math.Sign(directionOrder - direction) * Math.Min(360-Math.Abs(directionOrder - direction), 5);
+                Debug.Log("Direction changed on planeBehaviour");
             }
         }
 
@@ -97,7 +106,16 @@ public class PlaneBehaviour : MonoBehaviour {
 
         if (Physics.OverlapSphere(transform.position + new Vector3(0, 0.2f, 0), 0.2f).Length > 1)
         {
-            Debug.Log("Hello");
+            //Debug.Log("Hello");
         }
     }
+
+    // Change speed of a plane
+
+    // Change altitude of a plane
+
+    // Change direction of a plane
+
+
+
 }
