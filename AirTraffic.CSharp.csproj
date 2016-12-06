@@ -16,7 +16,7 @@
     <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
-    <UnityVersion>5.4.2f2</UnityVersion>
+    <UnityVersion>5.4.2f1</UnityVersion>
     <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
@@ -69,7 +69,6 @@
     <Compile Include="Assets\Script\PlaneBehaviour.cs" />
     <Compile Include="Assets\Script\infoText.cs" />
     <Compile Include="Assets\Script\meshTriangles.cs" />
-    <Compile Include="Assets\Script\rotate.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
