@@ -17,10 +17,11 @@ public class Destination
 }
 
 public class GameManager : MonoBehaviour {
-
-    public int planesStart;
-    public int planesMax;
+    
+    public int planesStart = 0;
+    public int planesMax = 10;
     public GameObject planeObject;
+    public float planesSpawnRate = 0.01f;
 
     public int planesCount = 0;
 
@@ -40,6 +41,8 @@ public class GameManager : MonoBehaviour {
 
         if (DateTime.Now.Subtract(destinationDict[origin].destLastTakeOff).TotalMilliseconds > 2000)
         {
+            destinationDict[origin].destLastTakeOff = DateTime.Now;
+
             GameObject instance = (GameObject)Instantiate(planeObject, new Vector3(destinationDict[origin].destPosition.x, destinationDict[origin].destPosition.y, 0.0f), Quaternion.Euler(0.0f, 180.0f, 0.0f));
             planesCount++;
 
@@ -53,8 +56,6 @@ public class GameManager : MonoBehaviour {
                 instance.GetComponent<PlaneBehaviour>().destination = (int)UnityEngine.Random.Range(0.0f, 3.9999f);
                 toInst = false;
             }
-
-            destinationDict[origin].destLastTakeOff = DateTime.Now;
         }
     }
 
@@ -78,7 +79,7 @@ public class GameManager : MonoBehaviour {
         if (planesCount < planesMax)
         {
             float spawnRand = UnityEngine.Random.Range(0.0f, 1.0f);
-            if (spawnRand < 0.01f)
+            if (spawnRand < planesSpawnRate)
             {
                 spawnPlane();
             }

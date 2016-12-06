@@ -106,7 +106,7 @@ public class PlaneBehaviour : MonoBehaviour {
 
         if (Physics.OverlapSphere(transform.position + new Vector3(0, 0.2f, 0), 0.2f).Length > 1)
         {
-            //Debug.Log("Hello");
+            GameObject.Find("LevelManager").GetComponent<LevelManager>().StopLevel();
         }
     }
 
