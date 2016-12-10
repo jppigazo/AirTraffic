@@ -5,12 +5,16 @@ public class LevelManager : MonoBehaviour {
 
     public GameObject GameManager;
     public GameObject DiffChoice;
+    public GameObject GameOverText;
 
     // Use this for initialization
     void Start () {
         //StartLevel();
         DiffChoice = GameObject.Find("DifficultyTxt");
-	}
+        GameOverText = GameObject.Find("GameOver");
+        GameObject.Find("GameOver").SetActive(false);
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -24,6 +28,8 @@ public class LevelManager : MonoBehaviour {
         {
             Destroy(go);
         }
+
+        GameOverText.SetActive(true);
         DiffChoice.SetActive(true);
     }
 
@@ -34,6 +40,8 @@ public class LevelManager : MonoBehaviour {
         instance.GetComponent<GameManager>().planesMax = planesMax;
         instance.GetComponent<GameManager>().planesSpawnRate = planesSpawnRate;
         DiffChoice.SetActive(false);
+        if(GameOverText.activeSelf)
+            GameObject.Find("GameOver").SetActive(false);
     }
 
     public void EasyStart()

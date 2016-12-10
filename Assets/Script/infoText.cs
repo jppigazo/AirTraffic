@@ -8,7 +8,7 @@ public class infoText : MonoBehaviour
     string txtVitesse, txtDirection, txtAltitude;
     RaycastHit planeHited;
     InputField InFiName, InFiDestination, InFiVitesse, InFiDirection, InFiAltitude;
-
+    
 
     // Use this for initialization
     void Start()
@@ -51,7 +51,24 @@ public class infoText : MonoBehaviour
                 {
 
                     InFiName.text = hit.transform.GetComponent<PlaneBehaviour>().planeName.ToString();
-                    InFiDestination.text = hit.transform.GetComponent<PlaneBehaviour>().destination.ToString();
+                    switch(hit.transform.GetComponent<PlaneBehaviour>().destination)
+                    {
+                        case 0:
+                            InFiDestination.text = "Montpellier";
+                            break;
+
+                       case 1:
+                            InFiDestination.text = "Lyon";
+                            break;
+                        case 2:
+                            InFiDestination.text = "Paris";
+                            break;
+                        case 3:
+                            InFiDestination.text = "Toulouse";
+                            break;
+                            
+                    }
+                    //InFiDestination.text = hit.transform.GetComponent<PlaneBehaviour>().destination.ToString();
                     InFiVitesse.text = hit.transform.GetComponent<PlaneBehaviour>().vitesse.ToString() + " knots";
                     InFiAltitude.text = "FL"+hit.transform.GetComponent<PlaneBehaviour>().altitude.ToString();
                     InFiDirection.text = "cap"+hit.transform.GetComponent<PlaneBehaviour>().direction.ToString();
@@ -65,25 +82,12 @@ public class infoText : MonoBehaviour
         }
     }
     
-    //private void SubmitName(string arg0)
-    //{
-    //   // Debug.Log(arg0);
-    //}
-    
-
-    void Awake()
-    {
-        //buttonSend = GameObject.Find("Send").GetComponent<Button>();
-       // buttonSend.onClick.AddListener(() => PlaneSendData());
-        Debug.Log("Send Data clicked");
-    }
-
 
     void PlaneSendData()
     {
         
         InputField txtVitesseOrder, txtDirectionOrder, txtAltitudeOrder;
-        Debug.Log("Send Data");
+        //Debug.Log("Send Data");
  
 
         if (GameObject.Find("Speed").GetComponent<InputField>().text != txtVitesse)         {
@@ -91,8 +95,8 @@ public class infoText : MonoBehaviour
             txtVitesseOrder = GameObject.Find("Speed").GetComponent<InputField>();
             txtVitesse = txtVitesseOrder.text;
             GameObject.Find("SpeedOrder").GetComponent<InputField>().text = txtVitesse;
-            Debug.Log("Vitesse: " + txtVitesse);
-            Debug.Log("VitesseOrder: " + txtVitesseOrder.text);
+            //Debug.Log("Vitesse: " + txtVitesse);
+            //Debug.Log("VitesseOrder: " + txtVitesseOrder.text);
 
             planeHited.transform.GetComponent<PlaneBehaviour>().vitesseOrder = float.Parse(txtVitesseOrder.text);           // Conversion knots (kts) / km.h / mph
 
@@ -104,8 +108,8 @@ public class infoText : MonoBehaviour
             txtAltitudeOrder = GameObject.Find("Altitude").GetComponent<InputField>();     // Conversion m / ft
             txtAltitude = "FL" + txtAltitudeOrder.text;
             GameObject.Find("AltitudeOrder").GetComponent<InputField>().text = txtAltitude;
-            Debug.Log("Altitude: " + txtAltitude);
-            Debug.Log("AltitudeOrder: " + txtAltitudeOrder.text);
+            //Debug.Log("Altitude: " + txtAltitude);
+            //Debug.Log("AltitudeOrder: " + txtAltitudeOrder.text);
 
             planeHited.transform.GetComponent<PlaneBehaviour>().altitudeOrder = int.Parse(txtAltitudeOrder.text);
 
@@ -117,8 +121,8 @@ public class infoText : MonoBehaviour
             txtDirectionOrder = GameObject.Find("Direction").GetComponent<InputField>();
             txtDirection = "CAP" + txtDirectionOrder.text;
             GameObject.Find("DirectionOrder").GetComponent<InputField>().text = txtDirection;
-            Debug.Log("Direction: " + txtDirection);
-            Debug.Log("DirectionOrder: " + txtDirectionOrder.text);
+            //Debug.Log("Direction: " + txtDirection);
+            //Debug.Log("DirectionOrder: " + txtDirectionOrder.text);
 
             planeHited.transform.GetComponent<PlaneBehaviour>().directionOrder = int.Parse(txtDirectionOrder.text);
 

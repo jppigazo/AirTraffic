@@ -24,6 +24,13 @@ public class GameManager : MonoBehaviour {
     public float planesSpawnRate = 0.01f;
 
     public int planesCount = 0;
+    // Names
+    int[] planesNames = new int[100];
+    int tabNames = 0;
+
+    //Altitude
+    int[] altFL = new int[100];
+    int altitudeStart = 400;
 
     public System.Collections.Generic.Dictionary<int, Destination> destinationDict = new System.Collections.Generic.Dictionary<int, Destination>();
 
@@ -46,10 +53,31 @@ public class GameManager : MonoBehaviour {
             GameObject instance = (GameObject)Instantiate(planeObject, new Vector3(destinationDict[origin].destPosition.x, destinationDict[origin].destPosition.y, 0.0f), Quaternion.Euler(0.0f, 180.0f, 0.0f));
             planesCount++;
 
-            instance.GetComponent<PlaneBehaviour>().planeName = string.Concat("AF-40", planesCount);
-            instance.GetComponent<PlaneBehaviour>().vitesse = UnityEngine.Random.Range(950.0f, 990.0f);
-            instance.GetComponent<PlaneBehaviour>().altitude = (int)UnityEngine.Random.Range(500.0f, 600.0f);
+            //Names
+            instance.GetComponent<PlaneBehaviour>().planeName = String.Concat("AF-", planesNames[tabNames].ToString());
+            if (tabNames < 100)
+                tabNames++;
+            else
+                tabNames = 0;
+            // Speed
+            instance.GetComponent<PlaneBehaviour>().vitesse = (float)Math.Round(UnityEngine.Random.Range(950.0f, 990.0f),2);
 
+            // Altitude
+            // if spawn on 0,0 start from 0 go to FL400;
+            if (origin == 0)
+            {
+                instance.GetComponent<PlaneBehaviour>().altitude = 0;
+                instance.GetComponent<PlaneBehaviour>().altitudeOrder = 400;
+
+                //Debug.Log("Alti depart = " + instance.GetComponent<PlaneBehaviour>().altitude);
+                //Debug.Log("Alti ORDER depart = " + instance.GetComponent<PlaneBehaviour>().altitudeOrder);
+            }
+            else
+            {
+                //instance.GetComponent<PlaneBehaviour>().altitude = (int)UnityEngine.Random.Range(500.0f, 600.0f);
+                instance.GetComponent<PlaneBehaviour>().altitude = altFL[(int)UnityEngine.Random.Range(0, ((altFL.Length) - 1))];
+            }
+            
             bool toInst = true;
             while (toInst || instance.GetComponent<PlaneBehaviour>().destination == origin)
             {
@@ -62,9 +90,22 @@ public class GameManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         InitializeDictionary();
-        
 
-	    for (int i = 0; i < planesStart; i++)
+        // Names
+        for (int i = 0; i < 100; i++)
+        {
+            planesNames[i] = UnityEngine.Random.Range(300, 600);
+        }
+
+        // Altitude
+        for (int i = 0; i < 100; i++)
+        {
+            altFL[i] = altitudeStart;
+            altitudeStart += 5;
+            //Debug.Log(altFL[i]);
+        }
+
+        for (int i = 0; i < planesStart; i++)
         {
             if (planesCount < planesMax)
             {
