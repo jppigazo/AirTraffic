@@ -1,11 +1,15 @@
 fileFormatVersion: 2
 guid: fbe311ad0d4c8a843b37adfd0dfc3189
-timeCreated: 1481014807
+timeCreated: 1481456150
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
   defaultReferences:
-  - planeObject: {fileID: 1000013613364810, guid: 8cd737610f47fd14d9d06283ae212658,
+  - planeObject: {fileID: 1000011076932564, guid: 8cd737610f47fd14d9d06283ae212658,
+      type: 2}
+  - minimapObject: {fileID: 1000011954122506, guid: 2be354b98003baa43a39435d880b976b,
+      type: 2}
+  - aeroportObject: {fileID: 1000011272427322, guid: 43024331c1888e74295d242ebf2ed496,
       type: 2}
   executionOrder: 0
   icon: {instanceID: 0}

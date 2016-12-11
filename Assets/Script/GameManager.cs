@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour {
     public int planesStart = 0;
     public int planesMax = 10;
     public GameObject planeObject;
+    public GameObject minimapObject;
+    public GameObject aeroportObject;
     public float planesSpawnRate = 0.01f;
 
     public int planesCount = 0;
@@ -37,9 +39,13 @@ public class GameManager : MonoBehaviour {
     void InitializeDictionary()
     {
         destinationDict.Add(0, new Destination("Montpellier",new Vector3(0.0f,0.0f)));
+        Instantiate(aeroportObject, new Vector3(6.75f + 0.0f/8, -3.75f + 0.0f/8), Quaternion.identity, transform);
         destinationDict.Add(1, new Destination("Lyon", new Vector3(9.0f, 4.0f)));
+        Instantiate(aeroportObject, new Vector3(6.75f + 9.0f / 8, -3.75f + 4.0f / 8), Quaternion.identity, transform);
         destinationDict.Add(2, new Destination("Paris", new Vector3(-1.0f, 9f)));
+        Instantiate(aeroportObject, new Vector3(6.75f - 1.0f / 8, -3.75f + 9.0f / 8), Quaternion.identity, transform);
         destinationDict.Add(3, new Destination("Toulouse", new Vector3(-9.0f, -9.0f)));
+        Instantiate(aeroportObject, new Vector3(6.75f - 9.0f / 8, -3.75f - 9.0f / 8), Quaternion.identity, transform);
     }
 
     void spawnPlane()
@@ -52,6 +58,8 @@ public class GameManager : MonoBehaviour {
 
             GameObject instance = (GameObject)Instantiate(planeObject, new Vector3(destinationDict[origin].destPosition.x, destinationDict[origin].destPosition.y, 0.0f), Quaternion.Euler(0.0f, 180.0f, 0.0f));
             planesCount++;
+
+            Instantiate(minimapObject, instance.transform);
 
             //Names
             instance.GetComponent<PlaneBehaviour>().planeName = String.Concat("AF-", planesNames[tabNames].ToString());
